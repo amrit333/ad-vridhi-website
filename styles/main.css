@@ -1140,6 +1140,70 @@ textarea {
   margin-top: 2px;
 }
 
+.leadership-contacts {
+  margin-top: 2rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.leadership-heading {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 0 0 0.875rem;
+}
+
+.leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+}
+
+.leadership-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.125rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.leadership-role {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.leadership-name {
+  font-family: var(--font-display);
+  font-size: 0.96875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.leadership-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  margin-top: 0.375rem;
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+
+.leadership-phone:hover {
+  color: var(--accent-text);
+}
+
 .contact-card {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
@@ -1393,6 +1457,7 @@ textarea {
   .work-grid,
   .process-grid,
   .service-list,
+  .leadership-grid,
   .form-grid,
   .footer-grid {
     grid-template-columns: 1fr;
