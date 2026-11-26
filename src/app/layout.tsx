@@ -16,6 +16,9 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { OrganizationJsonLd } from "@/components/JsonLd";
 import { AnalyticsScripts } from "@/components/AnalyticsScripts";
+import { CustomCursor } from "@/components/CustomCursor";
+import { PageLoader } from "@/components/PageLoader";
+import { ScrollStoryEngine } from "@/components/ScrollStoryEngine";
 import { SITE_INFO } from "@/data/site-data";
 
 export const metadata: Metadata = {
@@ -63,6 +66,9 @@ export default function RootLayout({
       <body className="min-h-screen bg-white font-sans text-brand-ink antialiased">
         <OrganizationJsonLd />
         <AnalyticsScripts />
+        <PageLoader />
+        <CustomCursor />
+        <ScrollStoryEngine />
         <Navbar />
         <main>{children}</main>
         <Footer />

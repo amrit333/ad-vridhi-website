@@ -1,22 +1,44 @@
 "use client";
 
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import { MagneticLink } from "./MagneticLink";
+
+const HeroWorkspace3D = dynamic(
+  () => import("./HeroWorkspace3D").then((mod) => mod.HeroWorkspace3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="relative h-[360px] w-full overflow-hidden rounded-[28px] bg-gradient-to-br from-[#F7F4FF] via-white to-[#FDF2FA] sm:h-[440px]">
+        <img
+          src="/images/hero-workspace-3d.jpg"
+          alt="3D creative digital marketing workspace"
+          width={1024}
+          height={1024}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    ),
+  }
+);
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-white pb-20 pt-12 sm:pt-16 lg:pb-28 lg:pt-20">
-      {/* Background Soft Pink & Blue Gradient Lighting + Dashed Curved Lines */}
+      {/* Background Soft Pink & Blue Gradient Lighting + Parallax Dashed Lines */}
       <div
+        data-gsap-parallax="-28"
         className="pointer-events-none absolute -left-32 top-0 h-[460px] w-[460px] rounded-full bg-brand-pink/45 blur-[110px]"
         aria-hidden="true"
       />
       <div
+        data-gsap-parallax="36"
         className="pointer-events-none absolute -right-24 top-10 h-[520px] w-[520px] rounded-full bg-brand-electric/15 blur-[120px]"
         aria-hidden="true"
       />
       <svg
+        data-gsap-parallax="-18"
         className="pointer-events-none absolute inset-x-0 top-12 mx-auto h-[520px] w-full max-w-7xl opacity-45"
         viewBox="0 0 1200 520"
         fill="none"
@@ -36,9 +58,9 @@ export function HeroSection() {
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-10">
         {/* LEFT COLUMN */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.65, ease: "easeOut" }}
           className="lg:col-span-6"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-purple/25 bg-brand-lavender px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-brand-deep">
@@ -51,7 +73,6 @@ export function HeroSection() {
             And Turn{" "}
             <span className="relative inline-block text-brand-purple">
               <span className="relative z-10">Ideas Into Reality.</span>
-              {/* Subtle Hand-Drawn Artistic Oval Accent */}
               <svg
                 className="pointer-events-none absolute -inset-x-3 -inset-y-1.5 h-[calc(100%+12px)] w-[calc(100%+24px)]"
                 viewBox="0 0 320 84"
@@ -59,12 +80,15 @@ export function HeroSection() {
                 preserveAspectRatio="none"
                 aria-hidden="true"
               >
-                <path
+                <motion.path
+                  initial={{ strokeDashoffset: 700, opacity: 0 }}
+                  animate={{ strokeDashoffset: 0, opacity: 0.8 }}
+                  transition={{ duration: 1.1, delay: 0.35, ease: "easeInOut" }}
+                  strokeDasharray="700"
                   d="M14 48C18 18 96 6 178 9C260 12 308 28 304 52C300 76 218 79 138 76C58 73 10 66 14 48Z"
                   stroke="#F58206"
                   strokeWidth="3"
                   strokeLinecap="round"
-                  opacity="0.78"
                 />
               </svg>
             </span>
@@ -75,44 +99,40 @@ export function HeroSection() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link
+            <MagneticLink
               href="/about"
-              className="inline-flex items-center justify-center rounded-full border-2 border-brand-lavender bg-white px-7 py-3.5 text-xs font-extrabold uppercase tracking-wider text-brand-deep transition-all hover:border-brand-purple hover:bg-brand-lavender/40"
+              className="inline-flex items-center justify-center rounded-full border-2 border-brand-lavender bg-white px-7 py-3.5 text-xs font-extrabold uppercase tracking-wider text-brand-deep transition-colors hover:border-brand-purple hover:bg-brand-lavender/40"
             >
               Read More
-            </Link>
-            <Link
+            </MagneticLink>
+            <MagneticLink
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-purple to-brand-electric px-8 py-4 text-xs font-extrabold uppercase tracking-wider text-white shadow-[0_16px_34px_-10px_rgba(91,108,255,0.65)] transition-all hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-purple to-brand-electric px-8 py-4 text-xs font-extrabold uppercase tracking-wider text-white shadow-[0_16px_34px_-10px_rgba(91,108,255,0.65)]"
             >
               <span>Get Started</span>
               <ArrowRight className="h-4 w-4" />
-            </Link>
+            </MagneticLink>
           </div>
         </motion.div>
 
-        {/* RIGHT COLUMN — 3D Studio Illustration + Floating Translucent Glass Card */}
+        {/* RIGHT COLUMN — Interactive R3F 3D Studio + Floating Translucent Glass Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+          transition={{ duration: 0.75, delay: 0.12 }}
           className="relative lg:col-span-6"
         >
-          <div className="relative mx-auto max-w-[540px] rounded-[36px] bg-gradient-to-br from-brand-lavender via-white to-brand-pink/60 p-4 shadow-soft">
-            <div className="overflow-hidden rounded-[28px] bg-white">
-              <img
-                src="/images/hero-workspace-3d.jpg"
-                alt="3D creative digital marketing workspace with floating analytics graphs and purple studio objects"
-                width={1024}
-                height={1024}
-                className="h-auto w-full object-cover"
-              />
-            </div>
+          <div className="relative mx-auto max-w-[560px] rounded-[36px] bg-gradient-to-br from-brand-lavender via-white to-brand-pink/60 p-4 shadow-soft">
+            <HeroWorkspace3D />
 
             {/* Floating Translucent Glass Card: "Your Growth" */}
             <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: [0, -7, 0] }}
+              transition={{
+                opacity: { duration: 0.6, delay: 0.45 },
+                y: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
+              }}
               className="glass-panel mt-4 rounded-3xl p-4 sm:absolute sm:-bottom-6 sm:-left-8 sm:mt-0 sm:w-72 sm:p-5"
             >
               <div className="flex items-center justify-between">
@@ -126,11 +146,10 @@ export function HeroSection() {
               </div>
 
               <div className="mt-3 flex items-center gap-4">
-                {/* Circular Analytics Donut Chart */}
                 <div className="relative flex h-16 w-16 shrink-0 items-center justify-center">
                   <svg className="h-16 w-16 -rotate-90" viewBox="0 0 64 64" aria-hidden="true">
                     <circle cx="32" cy="32" r="25" stroke="#F0EAFE" strokeWidth="7" fill="none" />
-                    <circle
+                    <motion.circle
                       cx="32"
                       cy="32"
                       r="25"
@@ -138,7 +157,9 @@ export function HeroSection() {
                       strokeWidth="7"
                       strokeLinecap="round"
                       strokeDasharray="157"
-                      strokeDashoffset="32"
+                      initial={{ strokeDashoffset: 157 }}
+                      animate={{ strokeDashoffset: 32 }}
+                      transition={{ duration: 1.3, delay: 0.5, ease: "easeOut" }}
                       fill="none"
                     />
                   </svg>
@@ -161,8 +182,9 @@ export function HeroSection() {
               </div>
             </motion.div>
 
-            {/* Subtle 3D Floating Purple Decorative Object near Bottom Right */}
+            {/* Subtle Floating 3D Purple Decorative Object near Bottom */}
             <motion.div
+              data-gsap-parallax="-24"
               animate={{ y: [0, 10, 0], rotate: [0, 8, 0] }}
               transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
               className="pointer-events-none absolute -bottom-5 -right-4 hidden h-16 w-16 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-deep shadow-glass sm:block"

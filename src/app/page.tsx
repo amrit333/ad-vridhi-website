@@ -1,11 +1,12 @@
-import Link from "next/link";
-import { ArrowRight, CheckCircle2, Sparkles, Compass, Palette, BarChart3, Bot } from "lucide-react";
+import { ArrowRight, Compass, Palette, BarChart3, Bot } from "lucide-react";
 import { HeroSection } from "@/components/HeroSection";
-import { ServiceVisual3D } from "@/components/ServiceVisual3D";
+import { ServiceCard3D } from "@/components/ServiceCard3D";
+import { AboutSectionAnimated } from "@/components/AboutSectionAnimated";
 import { PortfolioSection } from "@/components/PortfolioSection";
 import { ToolsWall } from "@/components/ToolsWall";
 import { TestimonialsCarousel } from "@/components/TestimonialsCarousel";
 import { WebDesignShowcase } from "@/components/WebDesignShowcase";
+import { MagneticLink } from "@/components/MagneticLink";
 import {
   PORTFOLIO_BRANDS,
   PROCESS_STEPS,
@@ -16,12 +17,12 @@ import {
 export default function HomePage() {
   return (
     <>
-      {/* 1. Hero Section */}
+      {/* 1. Interactive 3D Hero Section */}
       <HeroSection />
 
       {/* 2. Client / Brand Portfolio Reference Showcase */}
       <section className="border-y border-brand-lavender bg-[#FAF8FF] py-12">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div data-gsap-reveal className="mx-auto max-w-7xl px-5 sm:px-8">
           <p className="text-center font-display text-sm font-extrabold uppercase tracking-[0.18em] text-brand-deep">
             Creative Experiences. Measurable Growth.
           </p>
@@ -33,7 +34,7 @@ export default function HomePage() {
             {PORTFOLIO_BRANDS.map((brand) => (
               <div
                 key={brand.name}
-                className="flex flex-col justify-between rounded-2xl border border-brand-lavender bg-white px-5 py-4 text-center shadow-xs transition hover:-translate-y-0.5 hover:border-brand-purple/40"
+                className="flex flex-col justify-between rounded-2xl border border-brand-lavender bg-white px-5 py-4 text-center shadow-xs transition hover:-translate-y-1 hover:border-brand-purple/40 hover:shadow-soft"
               >
                 <div className="font-display text-lg font-extrabold tracking-tight text-brand-ink">
                   {brand.name}
@@ -47,12 +48,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 3. Services Asymmetric Section */}
+      {/* 3. Services Section with Interactive 3D Tilt Cards */}
       <section className="bg-white py-20 sm:py-28" id="services">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
-            {/* Sticky Left Editorial Column */}
-            <div className="lg:sticky lg:top-28 lg:col-span-4">
+            <div data-gsap-reveal className="lg:sticky lg:top-28 lg:col-span-4">
               <span className="inline-block rounded-full bg-brand-lavender px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-deep">
                 We Create Digital Experiences
               </span>
@@ -63,152 +63,36 @@ export default function HomePage() {
                 Instead of isolated tactics, Ad-Vridhi unifies performance media, organic content, technical SEO, ManyChat automation, and modern web development into one cohesive system.
               </p>
               <div className="mt-7">
-                <Link
+                <MagneticLink
                   href="/services"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-purple to-brand-electric px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-soft transition hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-purple to-brand-electric px-6 py-3.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-soft"
                 >
                   <span>Explore All 8 Services</span>
                   <ArrowRight className="h-4 w-4" />
-                </Link>
+                </MagneticLink>
               </div>
             </div>
 
-            {/* Right Floating Service Cards with Distinct 3D Visuals */}
             <div className="grid gap-6 sm:grid-cols-2 lg:col-span-8">
               {SERVICES.map((srv) => (
-                <article
-                  key={srv.slug}
-                  className="group flex flex-col justify-between rounded-[28px] border border-brand-lavender bg-white p-7 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-purple/50"
-                >
-                  <div>
-                    <div
-                      className="inline-flex rounded-2xl p-3"
-                      style={{ backgroundColor: srv.accentBg }}
-                    >
-                      <ServiceVisual3D type={srv.visualType} />
-                    </div>
-                    <h3 className="mt-5 font-display text-xl font-extrabold text-brand-ink">
-                      {srv.title}
-                    </h3>
-                    <p className="mt-2 text-sm font-semibold text-brand-purple">
-                      {srv.tagline}
-                    </p>
-                    <p className="mt-2.5 text-sm leading-relaxed text-brand-muted">
-                      {srv.description}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 border-t border-slate-100 pt-4">
-                    <Link
-                      href={`/services/${srv.slug}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-brand-deep transition-all group-hover:gap-2.5 group-hover:text-brand-purple"
-                    >
-                      <span>Learn More</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                </article>
+                <ServiceCard3D key={srv.slug} service={srv} />
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4. About Us Section — Circular Lavender-to-Purple Gradient Composition */}
-      <section className="relative overflow-hidden bg-[#FAF8FF] py-20 sm:py-28" id="about">
-        <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12">
-          {/* Left Circular Gradient Composition + Glass Card */}
-          <div className="relative flex justify-center lg:col-span-6">
-            <div className="relative flex h-[340px] w-[340px] items-center justify-center rounded-full bg-gradient-to-br from-brand-lavender via-[#C7B8FA] to-brand-purple p-6 shadow-soft sm:h-[430px] sm:w-[430px]">
-              <img
-                src="/images/about-strategist-3d.jpg"
-                alt="3D illustration of digital strategist interacting with marketing analytics dashboard"
-                width={1024}
-                height={1024}
-                className="h-full w-full rounded-full border-4 border-white/80 object-cover shadow-lg"
-              />
+      {/* 4. About Us Section — Animated 3D Character & Dashboard Composition */}
+      <AboutSectionAnimated />
 
-              {/* Floating Glassmorphism Card */}
-              <div className="glass-panel absolute -bottom-5 left-4 right-4 rounded-2xl p-4 sm:left-auto sm:-right-8 sm:bottom-10 sm:w-64">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-purple">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Ad-Vridhi Mindset
-                </div>
-                <div className="mt-1 font-display text-base font-extrabold text-brand-ink">
-                  Creative Minds. Strategic Thinking.
-                </div>
-              </div>
-
-              {/* Floating Decorative Orb */}
-              <div
-                className="pointer-events-none absolute -left-4 top-10 h-12 w-12 rounded-full bg-gradient-to-br from-brand-pink to-brand-purple shadow-md"
-                aria-hidden="true"
-              />
-            </div>
-          </div>
-
-          {/* Right Editorial Copy + Authentic Founder Profile */}
-          <div className="lg:col-span-6">
-            <span className="inline-block rounded-full bg-brand-lavender px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-deep">
-              About Ad-Vridhi
-            </span>
-            <h2 className="mt-4 font-display text-3xl font-extrabold leading-tight tracking-tight text-brand-ink sm:text-4xl">
-              We Are Here To Make Your Brand Stand Out.
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-brand-muted">
-              Ad-Vridhi brings creativity, strategy and technology together to help businesses establish a powerful digital presence and achieve meaningful growth.
-            </p>
-
-            <ul className="mt-6 space-y-3">
-              {[
-                "Strategy-driven marketing.",
-                "Creative digital experiences.",
-                "Measurable business growth.",
-              ].map((point) => (
-                <li key={point} className="flex items-center gap-3 text-sm font-bold text-brand-ink">
-                  <CheckCircle2 className="h-5 w-5 shrink-0 text-brand-purple" />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Authentic Founder Introduction from CV */}
-            <div className="mt-7 rounded-2xl border border-brand-lavender bg-white p-5 shadow-xs">
-              <div className="text-xs font-bold uppercase tracking-wider text-brand-purple">
-                Founder Profile
-              </div>
-              <div className="mt-1 font-display text-lg font-extrabold text-brand-ink">
-                {SITE_INFO.founder.name}
-              </div>
-              <div className="text-xs font-semibold text-brand-muted">
-                {SITE_INFO.founder.role} • {SITE_INFO.founder.experience}
-              </div>
-              <p className="mt-2 text-xs leading-relaxed text-brand-muted">
-                Google Analytics (GA4) Certified strategist (ID: 192846237) and BCA graduate (Punjab University, Patiala) combining Meta Ads, ManyChat automation, SEO, and AI content workflows.
-              </p>
-            </div>
-
-            <div className="mt-7">
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-purple to-brand-electric px-7 py-3.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-soft transition hover:-translate-y-0.5"
-              >
-                <span>Discover Our Story</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Purple Full-Width Performance & Portfolio Section */}
+      {/* 5. Purple Full-Width Performance & Portfolio Section with Modal */}
       <PortfolioSection />
 
       {/* 6. Creative Capabilities Section — Alternating Layout */}
       <section className="bg-white py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-6">
+            <div data-gsap-reveal className="lg:col-span-6">
               <span className="inline-block rounded-full bg-brand-lavender px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-deep">
                 Integrated Capabilities
               </span>
@@ -246,7 +130,8 @@ export default function HomePage() {
                   return (
                     <div
                       key={cap.title}
-                      className="rounded-2xl border border-brand-lavender bg-[#FAF8FF] p-5 transition hover:border-brand-purple/50"
+                      data-cursor="card"
+                      className="rounded-2xl border border-brand-lavender bg-[#FAF8FF] p-5 transition duration-300 hover:-translate-y-1 hover:border-brand-purple/50 hover:shadow-soft"
                     >
                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white text-brand-purple shadow-xs">
                         <Icon className="h-5 w-5" />
@@ -263,14 +148,14 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="lg:col-span-6">
+            <div data-gsap-reveal className="lg:col-span-6">
               <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-brand-lavender via-white to-brand-pink/50 p-6 shadow-soft">
                 <img
                   src="/images/hero-workspace-3d.jpg"
                   alt="Marketing specialist analytics workspace"
                   width={1024}
                   height={1024}
-                  className="rounded-[26px] object-cover"
+                  className="rounded-[26px] object-cover transition-transform duration-700 hover:scale-[1.02]"
                 />
                 <div className="glass-panel mt-4 flex items-center justify-between rounded-2xl px-5 py-3.5">
                   <span className="font-display text-sm font-bold text-brand-ink">
@@ -286,7 +171,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. Tools & Technologies Interactive Wall */}
+      {/* 7. Tools & Technologies Interactive 3D Logo Wall */}
       <ToolsWall />
 
       {/* 8. Testimonials Ready Carousel */}
@@ -298,7 +183,7 @@ export default function HomePage() {
       {/* 10. Our 6-Stage Process Timeline */}
       <section className="bg-white py-20 sm:py-24" id="process">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <div data-gsap-reveal className="mx-auto max-w-2xl text-center">
             <span className="inline-block rounded-full bg-brand-lavender px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-deep">
               How We Work
             </span>
@@ -311,7 +196,9 @@ export default function HomePage() {
             {PROCESS_STEPS.map((item) => (
               <div
                 key={item.step}
-                className="rounded-3xl border border-brand-lavender bg-white p-6 shadow-soft transition hover:-translate-y-1"
+                data-gsap-process
+                data-cursor="card"
+                className="rounded-3xl border border-brand-lavender bg-white p-6 shadow-soft transition hover:-translate-y-1.5 hover:border-brand-purple/40"
               >
                 <span
                   className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${item.color} font-display text-sm font-extrabold text-white shadow-md`}
@@ -334,15 +221,17 @@ export default function HomePage() {
       <section className="px-5 pb-20 sm:px-8">
         <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[36px] bg-gradient-to-r from-[#39208C] via-[#8B70F5] to-[#5B6CFF] px-6 py-16 text-center text-white shadow-soft sm:px-12 sm:py-20">
           <div
+            data-gsap-parallax="-30"
             className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full bg-brand-pink/30 blur-3xl"
             aria-hidden="true"
           />
           <div
+            data-gsap-parallax="30"
             className="pointer-events-none absolute -bottom-16 -right-16 h-64 w-64 rounded-full bg-brand-cyan/30 blur-3xl"
             aria-hidden="true"
           />
 
-          <div className="relative mx-auto max-w-3xl">
+          <div data-gsap-reveal className="relative mx-auto max-w-3xl">
             <span className="inline-block rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-white backdrop-blur-sm">
               Ready To Move Forward?
             </span>
@@ -353,13 +242,13 @@ export default function HomePage() {
               Whether you need a powerful website, smarter marketing or a complete digital growth strategy, Ad-Vridhi is ready to help.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Link
+              <MagneticLink
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-xs font-extrabold uppercase tracking-wider text-brand-deep shadow-lg transition hover:-translate-y-0.5 hover:bg-brand-lavender"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-xs font-extrabold uppercase tracking-wider text-brand-deep shadow-lg hover:bg-brand-lavender"
               >
                 <span>Start Your Project</span>
                 <ArrowRight className="h-4 w-4" />
-              </Link>
+              </MagneticLink>
               <a
                 href={SITE_INFO.founder.whatsappUrl}
                 target="_blank"
