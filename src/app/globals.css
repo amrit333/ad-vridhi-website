@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-canvas: #ffffff;
+  --text-primary: #20202a;
+  --text-secondary: #777785;
+  --purple-primary: #8b70f5;
+  --purple-deep: #39208c;
+  --electric-blue: #5b6cff;
+  --soft-lavender: #f0eafe;
+  --light-pink: #f8d7f4;
+  --cyan-accent: #55d9ea;
+  --logo-amber: #f58206;
+  --logo-gold: #ffb52e;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom floating glass card styling matching Mirror aesthetic */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 22px 48px -14px rgba(57, 32, 140, 0.18);
+}
+
+.glass-panel-purple {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 20px 44px -12px rgba(32, 16, 86, 0.24);
+}
+
+/* Subtle horizontal marquee for tools wall */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 32s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-marquee {
+    animation: none;
+  }
+}
