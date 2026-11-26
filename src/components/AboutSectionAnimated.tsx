@@ -1,15 +1,32 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Sparkles, BarChart2, Zap } from "lucide-react";
 import { SITE_INFO } from "@/data/site-data";
 
+const CartoonCharacter3D = dynamic(
+  () => import("./CartoonCharacter3D").then((mod) => mod.CartoonCharacter3D),
+  {
+    ssr: false,
+    loading: () => (
+      <img
+        src="/images/about-strategist-3d.jpg"
+        alt="3D illustration of creative digital marketing strategist"
+        width={1024}
+        height={1024}
+        className="h-full w-full rounded-full object-cover"
+      />
+    ),
+  }
+);
+
 export function AboutSectionAnimated() {
   return (
     <section className="relative overflow-hidden bg-[#FAF8FF] py-20 sm:py-28" id="about">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12">
-        {/* Left Circular Lavender-to-Purple Gradient Composition + Animated Mini Dashboard */}
+        {/* Left Circular Lavender-to-Purple Gradient Composition with 360° Interactive 3D Character */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -17,24 +34,23 @@ export function AboutSectionAnimated() {
           transition={{ duration: 0.7 }}
           className="relative flex justify-center lg:col-span-6"
         >
-          <div className="relative flex h-[340px] w-[340px] items-center justify-center rounded-full bg-gradient-to-br from-brand-lavender via-[#C7B8FA] to-brand-purple p-6 shadow-soft sm:h-[435px] sm:w-[435px]">
-            <motion.img
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              src="/images/about-strategist-3d.jpg"
-              alt="3D illustration of creative digital marketing strategist with analytics dashboard"
-              width={1024}
-              height={1024}
-              className="h-full w-full rounded-full border-4 border-white/80 object-cover shadow-lg"
-            />
+          <div className="relative flex h-[350px] w-[350px] items-center justify-center rounded-full bg-gradient-to-br from-brand-lavender via-[#C7B8FA] to-brand-purple p-5 shadow-soft sm:h-[445px] sm:w-[445px]">
+            <div className="h-full w-full overflow-hidden rounded-full border-4 border-white/85 bg-gradient-to-b from-white/95 to-brand-lavender/70 shadow-lg">
+              <CartoonCharacter3D
+                variant="strategist"
+                fallbackSrc="/images/about-strategist-3d.jpg"
+                fallbackAlt="3D creative marketing strategist interacting with dashboard"
+                className="h-full w-full"
+              />
+            </div>
 
-            {/* Animated Rising Mini Analytics Bars Pill (Top Left) */}
+            {/* Animated Rising Mini Analytics Bars Pill */}
             <motion.div
               initial={{ opacity: 0, x: -16 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.55, delay: 0.25 }}
-              className="glass-panel absolute -left-3 top-6 hidden rounded-2xl p-3 sm:block"
+              className="glass-panel pointer-events-none absolute -left-3 top-8 hidden rounded-2xl p-3 sm:block"
             >
               <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-deep">
                 <BarChart2 className="h-3.5 w-3.5 text-brand-purple" />
@@ -57,11 +73,11 @@ export function AboutSectionAnimated() {
               </div>
             </motion.div>
 
-            {/* Floating Icon Pill (Top Right) */}
+            {/* Floating Icon Pill */}
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
-              className="glass-panel absolute -right-3 top-14 hidden items-center gap-2 rounded-full px-3.5 py-2 sm:inline-flex"
+              className="glass-panel pointer-events-none absolute -right-3 bottom-28 hidden items-center gap-2 rounded-full px-3.5 py-2 sm:inline-flex"
             >
               <Zap className="h-3.5 w-3.5 text-brand-amber" />
               <span className="text-[11px] font-extrabold text-brand-ink">ManyChat + GA4</span>
@@ -73,7 +89,7 @@ export function AboutSectionAnimated() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.45 }}
-              className="glass-panel absolute -bottom-5 left-4 right-4 rounded-2xl p-4 sm:left-auto sm:-right-8 sm:bottom-10 sm:w-64"
+              className="glass-panel pointer-events-none absolute -bottom-5 left-4 right-4 rounded-2xl p-4 sm:left-auto sm:-right-8 sm:bottom-8 sm:w-64"
             >
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-purple">
                 <Sparkles className="h-3.5 w-3.5" />

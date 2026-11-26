@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { ContactShadows, Float, RoundedBox } from "@react-three/drei";
+import { ContactShadows, Float, OrbitControls, RoundedBox } from "@react-three/drei";
+import { Rotate3d } from "lucide-react";
 import * as THREE from "three";
 import { WebGLErrorBoundary } from "./WebGLErrorBoundary";
 
@@ -54,63 +55,47 @@ function WorkspaceScene({
   const cubeRef = useRef<THREE.Mesh>(null);
   const ambientLightRef = useRef<THREE.AmbientLight>(null);
 
-  useFrame(({ clock, camera }) => {
+  useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     const px = pointerRef.current.x;
     const py = pointerRef.current.y;
     const sp = scrollProgressRef.current;
 
-    // Gentle workspace float + mouse tilt + scroll rotation
     if (rootRef.current) {
-      const targetRotY = px * 0.22 + sp * 0.45 + Math.sin(t * 0.5) * 0.04;
-      const targetRotX = -py * 0.12 + 0.08;
-      rootRef.current.rotation.y = THREE.MathUtils.lerp(
-        rootRef.current.rotation.y,
-        targetRotY,
-        0.07
-      );
+      rootRef.current.position.y = Math.sin(t * 1.1) * 0.08 - sp * 0.12;
       rootRef.current.rotation.x = THREE.MathUtils.lerp(
         rootRef.current.rotation.x,
-        targetRotX,
+        -py * 0.08 + 0.04,
         0.07
       );
-      rootRef.current.position.y = Math.sin(t * 1.1) * 0.08;
     }
 
-    // Subtle scroll-linked camera perspective shift
-    const targetCamZ = isCompact ? 6.6 : 5.7 - sp * 0.7;
-    const targetCamY = 1.25 - sp * 0.25;
-    camera.position.z = THREE.MathUtils.lerp(camera.position.z, targetCamZ, 0.06);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, targetCamY, 0.06);
-    camera.lookAt(0, 0.15, 0);
-
-    // Independent floating parallax for side elements
     if (cardLeftRef.current) {
       cardLeftRef.current.position.x = THREE.MathUtils.lerp(
         cardLeftRef.current.position.x,
-        -1.65 + px * 0.25,
+        -1.65 + px * 0.2,
         0.08
       );
-      cardLeftRef.current.position.y = 0.72 + Math.sin(t * 1.6) * 0.09 + py * 0.12;
+      cardLeftRef.current.position.y = 0.72 + Math.sin(t * 1.6) * 0.09 + py * 0.1;
     }
 
     if (cardRightRef.current) {
       cardRightRef.current.position.x = THREE.MathUtils.lerp(
         cardRightRef.current.position.x,
-        1.65 + px * 0.3,
+        1.65 + px * 0.24,
         0.08
       );
-      cardRightRef.current.position.y = 0.55 + Math.cos(t * 1.4) * 0.09 - py * 0.1;
+      cardRightRef.current.position.y = 0.55 + Math.cos(t * 1.4) * 0.09 - py * 0.08;
     }
 
     if (ringRef.current) {
-      ringRef.current.rotation.x = t * 0.45 + py * 0.2;
-      ringRef.current.rotation.y = t * 0.35 + px * 0.2;
+      ringRef.current.rotation.x = t * 0.5 + py * 0.2;
+      ringRef.current.rotation.y = t * 0.4 + px * 0.2;
     }
 
     if (cubeRef.current) {
-      cubeRef.current.rotation.x = t * 0.3;
-      cubeRef.current.rotation.z = t * 0.4;
+      cubeRef.current.rotation.x = t * 0.35;
+      cubeRef.current.rotation.z = t * 0.45;
     }
 
     if (ambientLightRef.current) {
@@ -123,11 +108,23 @@ function WorkspaceScene({
       <ambientLight ref={ambientLightRef} intensity={1.1} color="#ffffff" />
       <hemisphereLight args={["#F0EAFE", "#F8D7F4", 0.9]} />
       <directionalLight position={[4, 6, 5]} intensity={1.35} color="#ffffff" castShadow />
-      <directionalLight position={[-4, 3, 2]} intensity={0.65} color="#C4B5FD" />
+      <directionalLight position={[-4, 3, -4]} intensity={0.75} color="#C4B5FD" />
       <pointLight position={[2.2, 2.5, 2.5]} intensity={0.55} color="#FFB52E" />
 
+      {/* 360° Drag-to-Turn + Continuous Smooth Auto-Rotation */}
+      <OrbitControls
+        enableZoom={false}
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.07}
+        autoRotate
+        autoRotateSpeed={1.4}
+        minPolarAngle={Math.PI / 3.4}
+        maxPolarAngle={Math.PI / 1.95}
+      />
+
       <group ref={rootRef} position={[0, 0, 0]}>
-        {/* Stylized Rounded Purple/Lavender Desk */}
+        {/* Rounded Purple/Lavender Desk */}
         <RoundedBox
           args={[3.5, 0.2, 1.8]}
           radius={0.09}
@@ -138,11 +135,17 @@ function WorkspaceScene({
           <meshStandardMaterial color="#E6DCFE" roughness={0.38} metalness={0.05} />
         </RoundedBox>
 
-        {/* Desk Legs / Pastel Supports */}
+        {/* Four Desk Legs for Full 360° Rear Inspection */}
         <RoundedBox args={[0.16, 0.55, 0.16]} radius={0.05} position={[-1.4, -1.12, 0.55]}>
           <meshStandardMaterial color="#8B70F5" roughness={0.35} />
         </RoundedBox>
         <RoundedBox args={[0.16, 0.55, 0.16]} radius={0.05} position={[1.4, -1.12, 0.55]}>
+          <meshStandardMaterial color="#8B70F5" roughness={0.35} />
+        </RoundedBox>
+        <RoundedBox args={[0.16, 0.55, 0.16]} radius={0.05} position={[-1.4, -1.12, -0.55]}>
+          <meshStandardMaterial color="#8B70F5" roughness={0.35} />
+        </RoundedBox>
+        <RoundedBox args={[0.16, 0.55, 0.16]} radius={0.05} position={[1.4, -1.12, -0.55]}>
           <meshStandardMaterial color="#8B70F5" roughness={0.35} />
         </RoundedBox>
 
@@ -165,24 +168,29 @@ function WorkspaceScene({
           <meshStandardMaterial color="#FFFFFF" roughness={0.22} metalness={0.08} />
         </RoundedBox>
 
+        {/* Back-of-Monitor Purple Emblem Accent for 360° Views */}
+        <RoundedBox args={[0.42, 0.42, 0.04]} radius={0.08} position={[0, 0.42, -0.22]}>
+          <meshStandardMaterial color="#8B70F5" roughness={0.25} />
+        </RoundedBox>
+
         {/* Monitor Inner Screen Canvas */}
         <RoundedBox args={[2.14, 1.26, 0.04]} radius={0.06} position={[0, 0.36, -0.09]}>
           <meshStandardMaterial color="#F7F4FF" roughness={0.18} />
         </RoundedBox>
 
-        {/* Animated 3D Marketing Growth Chart Bars Inside Monitor */}
+        {/* Animated 3D Growth Chart Bars */}
         <AnimatedBar position={[-0.72, -0.08, -0.04]} targetHeight={0.34} color="#C4B5FD" delay={0} />
         <AnimatedBar position={[-0.44, -0.08, -0.04]} targetHeight={0.52} color="#A78BFA" delay={0.5} />
         <AnimatedBar position={[-0.16, -0.08, -0.04]} targetHeight={0.68} color="#8B70F5" delay={1.0} />
         <AnimatedBar position={[0.12, -0.08, -0.04]} targetHeight={0.82} color="#5B6CFF" delay={1.5} />
         <AnimatedBar position={[0.4, -0.08, -0.04]} targetHeight={0.96} color="#F58206" delay={2.0} />
 
-        {/* Glowing Trend Header Bar on Screen */}
+        {/* Screen Top Header Bar */}
         <RoundedBox args={[1.68, 0.14, 0.03]} radius={0.04} position={[0, 0.84, -0.05]}>
           <meshStandardMaterial color="#8B70F5" roughness={0.25} />
         </RoundedBox>
 
-        {/* Creative Desk Accessories (Mini Lavender Pad & Coffee/Object) */}
+        {/* Desk Accessories */}
         <RoundedBox args={[0.8, 0.04, 0.35]} radius={0.02} position={[-0.55, -0.66, 0.45]}>
           <meshStandardMaterial color="#F8D7F4" roughness={0.4} />
         </RoundedBox>
@@ -191,7 +199,7 @@ function WorkspaceScene({
           <meshStandardMaterial color="#55D9EA" roughness={0.28} />
         </mesh>
 
-        {/* Floating Left Glass Card (Social / Analytics Tile) */}
+        {/* Floating Left Glass Card */}
         <group ref={cardLeftRef} position={[-1.65, 0.72, 0.35]}>
           <RoundedBox args={[0.92, 0.62, 0.07]} radius={0.08} smoothness={4}>
             <meshPhysicalMaterial
@@ -211,7 +219,7 @@ function WorkspaceScene({
           </RoundedBox>
         </group>
 
-        {/* Floating Right Card (Campaign Signal Tile) */}
+        {/* Floating Right Card */}
         <group ref={cardRightRef} position={[1.65, 0.55, 0.38]}>
           <RoundedBox args={[0.88, 0.66, 0.07]} radius={0.08} smoothness={4}>
             <meshStandardMaterial color="#39208C" roughness={0.25} metalness={0.1} />
@@ -225,13 +233,12 @@ function WorkspaceScene({
           </RoundedBox>
         </group>
 
-        {/* Floating Purple 3D Ring */}
+        {/* Floating Purple Ring */}
         <mesh ref={ringRef} position={[1.38, 1.32, -0.35]}>
           <torusGeometry args={[0.26, 0.085, 20, 48]} />
           <meshStandardMaterial color="#8B70F5" roughness={0.22} metalness={0.18} />
         </mesh>
 
-        {/* Floating Pastel Spheres & Translucent Cube (Hidden/Reduced in Compact Mobile View) */}
         {!isCompact ? (
           <>
             <Float speed={2} rotationIntensity={0.4} floatIntensity={0.6}>
@@ -294,7 +301,6 @@ export function HeroWorkspace3D() {
     checkViewport();
     window.addEventListener("resize", checkViewport);
 
-    // Verify WebGL support safely
     try {
       const canvas = document.createElement("canvas");
       const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
@@ -303,7 +309,6 @@ export function HeroWorkspace3D() {
       setCanWebGL(false);
     }
 
-    // Pause 3D loop when scrolled out of viewport
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
       { threshold: 0.05 }
@@ -351,15 +356,20 @@ export function HeroWorkspace3D() {
       ref={containerRef}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="relative h-[360px] w-full overflow-hidden rounded-[28px] bg-gradient-to-br from-[#F7F4FF] via-white to-[#FDF2FA] sm:h-[440px]"
+      className="relative h-[360px] w-full cursor-grab overflow-hidden rounded-[28px] bg-gradient-to-br from-[#F7F4FF] via-white to-[#FDF2FA] active:cursor-grabbing sm:h-[440px]"
     >
+      <span className="pointer-events-none absolute right-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full border border-brand-purple/25 bg-white/85 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-brand-deep shadow-xs backdrop-blur-sm">
+        <Rotate3d className="h-3.5 w-3.5 text-brand-purple" />
+        360° Drag to Turn
+      </span>
+
       {!canWebGL || reducedMotion ? (
         staticFallback
       ) : (
         <WebGLErrorBoundary fallback={staticFallback}>
           <Canvas
             dpr={[1, 1.5]}
-            camera={{ position: [0, 1.2, 5.6], fov: 40 }}
+            camera={{ position: [0, 1.25, 5.7], fov: 40 }}
             frameloop={inView ? "always" : "never"}
             gl={{ antialias: true, powerPreference: "high-performance", alpha: true }}
           >

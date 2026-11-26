@@ -1,8 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, Quote } from "lucide-react";
+
+const CartoonCharacter3D = dynamic(
+  () => import("./CartoonCharacter3D").then((mod) => mod.CartoonCharacter3D),
+  {
+    ssr: false,
+    loading: () => (
+      <img
+        src="/images/testimonial-client-3d.jpg"
+        alt="3D character illustration representing Ad-Vridhi business clients"
+        width={1024}
+        height={1024}
+        className="aspect-square w-full rounded-[28px] object-cover"
+      />
+    ),
+  }
+);
 
 const PLACEHOLDER_SLOTS = [
   {
@@ -38,21 +55,18 @@ export function TestimonialsCarousel() {
       />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12">
-          {/* Left Floating 3D Character Visual */}
+          {/* Left 360° Interactive 3D Client Character */}
           <div className="lg:col-span-5">
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="mx-auto max-w-sm overflow-hidden rounded-[36px] bg-gradient-to-br from-brand-lavender via-white to-brand-pink/55 p-4 shadow-soft"
-            >
-              <img
-                src="/images/testimonial-client-3d.jpg"
-                alt="3D character illustration representing Ad-Vridhi business clients"
-                width={1024}
-                height={1024}
-                className="aspect-square w-full rounded-[28px] object-cover"
-              />
-            </motion.div>
+            <div className="mx-auto max-w-sm overflow-hidden rounded-[36px] bg-gradient-to-br from-brand-lavender via-white to-brand-pink/55 p-4 shadow-soft">
+              <div className="overflow-hidden rounded-[28px] bg-gradient-to-b from-white to-brand-lavender/50">
+                <CartoonCharacter3D
+                  variant="client"
+                  fallbackSrc="/images/testimonial-client-3d.jpg"
+                  fallbackAlt="3D character illustration representing Ad-Vridhi business clients"
+                  className="h-[340px] sm:h-[380px]"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Right Glass Testimonial Card & Animated Carousel */}

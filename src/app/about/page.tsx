@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Award, CheckCircle2, ArrowRight, GraduationCap, ShieldCheck } from "lucide-react";
 import { SITE_INFO, HISTORICAL_ACHIEVEMENTS } from "@/data/site-data";
 import { BreadcrumbJsonLd } from "@/components/JsonLd";
+import { AboutPageCharacter3D } from "@/components/AboutPageCharacter3D";
 
 export const metadata: Metadata = {
   title: "About Ad-Vridhi & Founder Amritpal Singh",
@@ -40,15 +41,11 @@ export default function AboutPage() {
             </div>
 
             <div className="flex justify-center lg:col-span-6">
-              <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-br from-brand-lavender via-[#C7B8FA] to-brand-purple p-5 shadow-soft sm:h-[380px] sm:w-[380px]">
-                <img
-                  src="/images/about-strategist-3d.jpg"
-                  alt="Ad-Vridhi founder digital strategist 3D illustration"
-                  width={1024}
-                  height={1024}
-                  className="h-full w-full rounded-full border-4 border-white/80 object-cover"
-                />
-                <div className="glass-panel absolute -bottom-4 rounded-2xl px-5 py-3 text-center">
+              <div className="relative flex h-[340px] w-[340px] items-center justify-center rounded-full bg-gradient-to-br from-brand-lavender via-[#C7B8FA] to-brand-purple p-5 shadow-soft sm:h-[400px] sm:w-[400px]">
+                <div className="h-full w-full overflow-hidden rounded-full border-4 border-white/85 bg-gradient-to-b from-white/95 to-brand-lavender/70">
+                  <AboutPageCharacter3D />
+                </div>
+                <div className="glass-panel pointer-events-none absolute -bottom-4 rounded-2xl px-5 py-3 text-center">
                   <div className="font-display text-sm font-extrabold text-brand-ink">
                     Creative Minds. Strategic Thinking.
                   </div>

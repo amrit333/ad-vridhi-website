@@ -6,6 +6,7 @@ import { PortfolioSection } from "@/components/PortfolioSection";
 import { ToolsWall } from "@/components/ToolsWall";
 import { TestimonialsCarousel } from "@/components/TestimonialsCarousel";
 import { WebDesignShowcase } from "@/components/WebDesignShowcase";
+import { CapabilitiesCharacterStage } from "@/components/CapabilitiesCharacterStage";
 import { MagneticLink } from "@/components/MagneticLink";
 import {
   PORTFOLIO_BRANDS,
@@ -150,13 +151,7 @@ export default function HomePage() {
 
             <div data-gsap-reveal className="lg:col-span-6">
               <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-brand-lavender via-white to-brand-pink/50 p-6 shadow-soft">
-                <img
-                  src="/images/hero-workspace-3d.jpg"
-                  alt="Marketing specialist analytics workspace"
-                  width={1024}
-                  height={1024}
-                  className="rounded-[26px] object-cover transition-transform duration-700 hover:scale-[1.02]"
-                />
+                <CapabilitiesCharacterStage />
                 <div className="glass-panel mt-4 flex items-center justify-between rounded-2xl px-5 py-3.5">
                   <span className="font-display text-sm font-bold text-brand-ink">
                     GA4 + Meta Pixel + Search Console Ready
